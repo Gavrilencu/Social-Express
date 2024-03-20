@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
@@ -10,15 +11,11 @@ app.use(bodyParser.json());
 
 // Configurația pool-ului de conexiuni MySQL
 const pool = mysql.createPool({
-  host: '49.12.231.103', // sau adresa IP a serverului tău MySQL
-  user: 'dev', // înlocuiește cu numele tău de utilizator MySQL
-  password: 'dev', // înlocuiește cu parola ta MySQL
-  database: 'social', // înlocuiește cu numele bazei de date la care dorești să te conectezi
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
-
 // Ruta de înregistrare
 app.post('/register', async (req, res) => {
     const { name, surname, email, password } = req.body;
